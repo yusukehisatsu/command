@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <form action="/" method="get">
+  <div class="form-group">
+    <input type="text" class="form-control" name="command" id="command" placeholder="Enter Command you want to execute!">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="bash" checked>bash</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="vagrant" checked>vagrant</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="mysql" checked>mysql</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="docker" checked>docker</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="git" checked>git</label>
+    </div>
+    <button name="search" id="search" class="center-block btn btn-success">Search!!</button>
+  </div>
+  </form>
+</div>
+<hr>
+<div class="container-fluid">
+  <div class="row text-center">
+    <p id="selectedCommand" class="selected-command col-xs-12"><strong></strong></p>
+    <!-- loop start  -->
+    <?php
+      $i=0;
+      foreach($this->layout()->rowset as $row){
+          $i++;
+    ?>
+    <div class="command-list container-fluid">
+      <div class="command-detail command col-xs-4"><input type="text" id="command-<?php echo $i; ?>" value="<?php echo $row->option_name;?>" readonly="readonly"></div>
+      <div class="command-detail command col-xs-5"><?php echo $row->explain_desc;?></div>
+      <div class="command-detail col-xs-3">
+        <button class="btn btn-warning copy" data-clipboard-target="#command-<?php echo $i; ?>">
+          Copy!
+        </button>
+      </div>
+    </div>
+    <?php } ?>
+    <!-- loop end  -->
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function() {
+  // ［検索］ボタンクリックで検索開始
+  $('#search').click(function() {
+    var formData = $('form').serialize();
+    //通常のアクションをキャンセルする
+    event.preventDefault();
+    // .phpファイルへのアクセス
+    $.ajax('/command/ajax',
+      {
+        type: 'GET',
+        data: formData,
+        dataType: 'json',
+        success:function(data){
+            $("[#selectedCommand]").val(data[command_name]);
+            $.each(data, function(i ,shopdata){
+                var shop = $(this);
+                place.text(shopdata[areacode].adress); //jsonファイルのadressキーの値
+                tel.text(shopdata[areacode].telnum);//jsonファイルのtelnumキーの値
+                fadeMap(shopdata[areacode].map);//jsonファイルのmapキーの値
+            });
+
+        },
+        error:function(){alert('失敗');}
+      }
+    )
+  });
+});
+</script>

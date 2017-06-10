@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <form action="/" method="get">
+  <div class="form-group">
+    <input type="text" class="form-control" name="command" id="command" placeholder="Enter Command you want to execute!">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="00" checked>bash</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="01" checked>vagrant</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="02" checked>mysql</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="03" checked>docker</label>
+        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="04" checked>git</label>
+    </div>
+    <button name="search" id="search" class="center-block btn btn-success">Search!!</button>
+  </div>
+  </form>
+</div>
+<hr>
+<div class="container-fluid">
+  <div class="row text-center">
+    <div class="default-message">コマンドを入力してね(・∀・)</div>
+    <div class="selected-command col-xs-12"></div>
+    <div class="command-list-area"></div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function() {
+  // ［検索］ボタンクリックで検索開始
+  $('#search').click(function() {
+    var formData = $('form').serialize();
+    //通常のアクションをキャンセルする
+    event.preventDefault();
+    // .phpファイルへのアクセス
+    $.ajax('/command/ajax',
+      {
+        type: 'GET',
+        data: formData,
+        dataType: 'json',
+        success:function(data){
+
+            //結果エリアのクリア
+            $(".selected-command").empty();
+            $(".command-list-area").empty();
+            $(".default-message").empty();
+            $(".default-message").append(
+                '該当するコマンドはありませんでした'
+            );
+
+            $.each(data, function(i) {
+
+                if(i==0) {
+                    //メッセージのクリア
+                    $(".default-message").empty();
+
+                    //コマンド名表示
+                    $(".selected-command").append(
+                        '<strong>' + data[i].original_command_name + '</strong>'
+                    );
+                }
+
+                //リスト表示
+                $(".command-list-area").append(
+                     '<div class="command-list container-fluid">' +
+                     '<div class="command-detail command col-xs-4"><input type="text" id="command-' + i + '" value="' + data[i].option_name + '" readonly="readonly"></div>' +
+                     '<div class="command-detail command text-left col-xs-5">' + data[i].explain_desc + '</div>' +
+                     '<div class="command-detail col-xs-3">' +
+                     '<button class="btn btn-warning copy" data-clipboard-target="#command-' + i + '">Copy!</button>' +
+                     '</div></div>'
+                );
+            });
+        },
+        error:function(){alert('失敗');}
+      }
+    )
+  });
+});
+</script>
+<link href="/css/jquery-ui.min.css" media="screen" rel="stylesheet" type="text/css">
+<script src="/js/jquery-ui.min.js"></script>
+<script>
+$(document).ready( function() {
+    $("#command").autocomplete({
+        source: function(req, resp){
+
+            //選択されたチェックボックスの値を配列に保存
+            var checks=[];
+            $("[name='check']:checked").each(function(){
+                checks.push(this.value);
+            });
+
+            $.ajax({
+                url: "/command/auto",
+                type: "GET",
+                cache: false,
+                dataType: "json",
+                data: {
+                    command: req.term,
+                    checks: checks
+                },
+                success: function(o){
+                    resp(o);
+                },
+                error: function(xhr, ts, err){
+                    resp(['']);
+                }
+            });
+
+        }
+    });
+});
+</script>

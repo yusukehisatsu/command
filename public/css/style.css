@@ -1,0 +1,75 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+div.container a.brand {
+    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
+    margin-left: 0;
+    padding: 8px 20px 12px 40px;
+}
+
+/* navbar */
+.navbar {
+    background-color: #4e5d6c;
+}
+
+.navbar-brand {
+    color: #ebebeb;
+}
+
+
+/* 言語選択ボタン */
+.btn-conditions{
+    margin: 4px 4px;
+}
+
+.btn-conditions:hover{
+    background-color: #4e5d6c;
+}
+
+.btn-conditions:active:hover,
+.btn-conditions.active:hover{
+    background-color: #914411;
+}
+
+.btn-conditions:active,
+.btn-conditions.active,
+.open>.dropdown-toggle.btn-conditions{
+    background-color: #df691a;
+}
+
+/* データ部 */
+.selected-command{
+    margin-bottom: 20px;
+}
+
+.selected-command strong{
+    border-bottom: 1px solid #ffffff;
+}
+
+.command-list{
+    border-bottom: 1px dotted #596a7b;
+    width: 90%;
+}
+
+.command-detail {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.command-detail input{
+    background-color:transparent;
+    border: none;
+    color: #ebebeb;
+}
+.command{
+    padding: 8px 16px;
+}
+
+
+/* footer */
+footer {
+    text-align: right;
+    font-size: small;
+}
