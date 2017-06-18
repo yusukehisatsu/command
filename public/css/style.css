@@ -4,7 +4,7 @@ body {
 }
 
 div.container a.brand {
-    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
+    background: url("../img/logo.png") no-repeat scroll 0 10px transparent;
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
@@ -40,6 +40,19 @@ div.container a.brand {
 }
 
 /* データ部 */
+.default-message{
+    width: 50%;
+}
+
+.default-message .about strong,.update strong{
+    font-size: large;
+    border-bottom: 1px solid #ffffff;
+}
+
+.default-message .title{
+    margin-bottom: 7px;
+}
+
 .selected-command{
     margin-bottom: 30px;
 }
@@ -50,6 +63,13 @@ div.container a.brand {
 
 .selected-command strong{
     border-bottom: 1px solid #ffffff;
+    font-size: large;
+}
+
+.selected-command .selected-group{
+    background-color: #df691a;
+    padding: 6px;
+    margin-right: auto;
 }
 
 .command-list{
@@ -58,11 +78,14 @@ div.container a.brand {
 }
 
 @media only screen and (max-device-width: 480px) {
+    .default-message{
+        width: 100%;
+    }
+
     .command-list{
         width: 100%;
         font-size: small;
     }
-
 }
 
 .command-detail {
