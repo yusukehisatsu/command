@@ -7,7 +7,6 @@
         <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="01" checked>cmd</label>
         <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="02" checked>mysql</label>
         <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="03" checked>git</label>
-        <label class="btn btn-conditions active"><input type="checkbox" autocomplete="off" name="check" value="04" checked>vagrant</label>
     </div>
     <button name="search" id="search" class="center-block btn btn-success">Search!!</button>
   </div>
@@ -17,6 +16,7 @@
 <div class="container-fluid">
   <div class="row text-center">
     <div class="default-message">コマンドを入力してね(・∀・)</div>
+    <div class="selected-group col-xs-12"></div>
     <div class="selected-command col-xs-12"></div>
     <div class="command-list-area"></div>
   </div>
@@ -38,6 +38,7 @@ $(function() {
         success:function(data){
 
             //結果エリアのクリア
+            $(".selected-group").empty();
             $(".selected-command").empty();
             $(".command-list-area").empty();
             $(".default-message").empty();
@@ -45,26 +46,52 @@ $(function() {
                 '該当するコマンドはありませんでした'
             );
 
+            var group_cd = '';
+
+            switch (data[0].group_cd){
+                case '00':
+                    group = 'linux';
+                    break;
+                case '01':
+                    group = 'cmd';
+                    break;
+                case '02':
+                    group = 'mysql';
+                    break;
+                case '03':
+                    group = 'git';
+                    break;
+            }
+
             $.each(data, function(i) {
 
                 if(i==0) {
                     //メッセージのクリア
                     $(".default-message").empty();
 
-                    //コマンド名表示
                     $(".selected-command").append(
-                        '<strong>' + data[i].original_command_name + '</strong>'
+                        '<label class="btn btn-conditions active">' +
+                        group +
+                        '</label>' +
+                        '<strong>' +
+                        data[i].original_command_name +
+                        '  ' +
+                        data[i].command_explain_desc +
+                        '</strong>'
                     );
                 }
 
                 //リスト表示
                 $(".command-list-area").append(
                      '<div class="command-list container-fluid">' +
-                     '<div class="command-detail command col-xs-4"><input type="text" id="command-' + i + '" value="' + data[i].option_name + '" readonly="readonly"></div>' +
-                     '<div class="command-detail command text-left col-xs-5">' + data[i].explain_desc + '</div>' +
-                     '<div class="command-detail col-xs-3">' +
-                     '<button class="btn btn-warning copy" data-clipboard-target="#command-' + i + '">Copy!</button>' +
-                     '</div></div>'
+                        '<div class="container-fluid">' +
+                            '<div class="command-detail command col-xs-12"><input type="text" id="command-' + i + '" value="' + data[i].option_name + '" readonly="readonly"></div>' +
+                        '</div>' +
+                        '<div class="container-fluid">' +
+                            '<div class="command-detail command text-left col-xs-10">' + data[i].explain_desc + '</div>' +
+                            '<div class="command-detail col-xs-2"><button class="btn btn-warning copy" data-clipboard-target="#command-' + i + '">Copy!</button></div>' +
+                        '</div>' +
+                    '</div>'
                 );
             });
         },

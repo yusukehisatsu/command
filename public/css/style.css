@@ -41,7 +41,11 @@ div.container a.brand {
 
 /* データ部 */
 .selected-command{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.selected-command label{
+    margin-right: 10px;
 }
 
 .selected-command strong{
@@ -50,7 +54,15 @@ div.container a.brand {
 
 .command-list{
     border-bottom: 1px dotted #596a7b;
-    width: 90%;
+    width: 60%;
+}
+
+@media only screen and (max-device-width: 480px) {
+    .command-list{
+        width: 100%;
+        font-size: small;
+    }
+
 }
 
 .command-detail {
@@ -62,6 +74,7 @@ div.container a.brand {
     background-color:transparent;
     border: none;
     color: #ebebeb;
+    width: 100%;
 }
 .command{
     padding: 8px 16px;

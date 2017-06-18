@@ -9,6 +9,7 @@
 
 namespace Command\Controller;
 
+use Command\Model\Update;
 use Zend\Mvc\Controller\AbstractActionController;
 //use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -27,6 +28,12 @@ class AjaxController extends AbstractActionController
         //検索処理
         $select = new Select();
         $rowset = $select->selectList($command);
+
+        if($rowset->count() > 0){
+            //カウントアップ
+            $update = new Update();
+            $result = $update->countUpCommand($command);
+        }
 
         //JSONで返却
         $jsonModel = new JsonModel($rowset);

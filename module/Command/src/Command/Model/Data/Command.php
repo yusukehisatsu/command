@@ -25,4 +25,24 @@ class Command extends TableModel
         $rowset = $this->selectWith($select);
         return $rowset;
     }
+
+    public function countUp($command)
+    {
+        // Selectのインスタンスを取得
+        $update = $this->getSql()->update();
+
+        //Update句指定
+        $update->set(array(
+            'count' => new \Zend\Db\Sql\Predicate\Expression('count+1'),
+        ));
+
+        //Where句指定
+        $update->where(array(
+            'command_name' => $command,
+        ));
+
+        // 実行
+        $result = $this->updateWith($update);
+        return $result;
+    }
 }
