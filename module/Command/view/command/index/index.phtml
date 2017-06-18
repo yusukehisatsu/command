@@ -35,7 +35,7 @@
 <script>
 $(function() {
   // ［検索］ボタンクリックで検索開始
-  $('#search').click(function() {
+  $('#search').click(function(event) {
     var formData = $('form').serialize();
     //通常のアクションをキャンセルする
     event.preventDefault();
